@@ -7,11 +7,11 @@
           <h2>Stratigo</h2>
         </div>
         <ul class="nav-links" :class="{ 'active': mobileMenuOpen }">
-          <li><a href="#beranda" @click="closeMobileMenu">Beranda</a></li>
-          <li><a href="#layanan" @click="closeMobileMenu">Layanan</a></li>
-          <li><a href="#portofolio" @click="closeMobileMenu">Portofolio</a></li>
-          <li><a href="#tentang" @click="closeMobileMenu">Tentang</a></li>
-          <li><a href="#kontak" @click="closeMobileMenu">Kontak</a></li>
+          <li><a href="#beranda" @click="closeMobileMenu('beranda')">Beranda</a></li>
+          <li><a href="#layanan" @click="closeMobileMenu('layanan')">Layanan</a></li>
+          <li><a href="#portofolio" @click="closeMobileMenu('portofolio')">Portofolio</a></li>
+          <li><a href="#tentang" @click="closeMobileMenu('tentang')">Tentang</a></li>
+          <li><a href="#kontak" @click="closeMobileMenu('kontak')">Kontak</a></li>
         </ul>
         <div class="mobile-menu-toggle" @click="toggleMobileMenu">
           <span></span>
@@ -33,8 +33,8 @@
             Stratigo menghadirkan layanan website dan website perusahaan yang dipersonalisasi dengan website profesional, integrasi AI, dan otomasi.
           </p>
           <div class="hero-buttons">
-            <a href="#layanan" class="btn btn-primary">Jelajahi Layanan</a>
-            <a href="#kontak" class="btn btn-outline">Hubungi Kami</a>
+            <a href="#layanan" class="btn btn-primary" @click="trackButtonClick('Jelajahi Layanan', 'hero')">Jelajahi Layanan</a>
+            <a href="#kontak" class="btn btn-outline" @click="trackButtonClick('Hubungi Kami', 'hero')">Hubungi Kami</a>
           </div>
         </div>
         <div class="hero-visual fade-in" :class="{ 'visible': heroVisible }">
@@ -60,7 +60,8 @@
         <div class="services-grid">
           <div class="service-card fade-in" :class="{ 'visible': servicesVisible }" 
                v-for="(service, index) in services" :key="index"
-               :style="{ 'animation-delay': `${index * 0.2}s` }">
+               :style="{ 'animation-delay': `${index * 0.2}s` }"
+               @click="handleServiceClick(service.title)">
             <div class="service-icon">
               <div v-html="service.icon"></div>
             </div>
@@ -84,7 +85,8 @@
         <div class="case-studies-grid">
           <div class="case-study-card fade-in" :class="{ 'visible': caseStudiesVisible }" 
                v-for="(caseStudy, index) in caseStudies" :key="index"
-               :style="{ 'animation-delay': `${index * 0.2}s` }">
+               :style="{ 'animation-delay': `${index * 0.2}s` }"
+               @click="handleCaseStudyClick(caseStudy.title, caseStudy.category)">
             <div class="case-study-image">
               <img :src="caseStudy.image" :alt="caseStudy.title" />
               <div class="case-study-overlay">
@@ -250,7 +252,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import caseStudy1Image from './assets/stratigo-ai-demo/demo-1.png'
-import { Analytics } from "@vercel/analytics/vue"
+import { useAnalytics } from './composables/useAnalytics.js'
+
+// Initialize analytics
+const { trackEvent, trackFormSubmission, trackButtonClick, trackServiceInterest, trackNavigation } = useAnalytics()
 
 // Reactive data
 const isScrolled = ref(false)
@@ -407,8 +412,22 @@ const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value
 }
 
-const closeMobileMenu = () => {
+const handleServiceClick = (serviceName) => {
+  trackServiceInterest(serviceName)
+}
+
+const handleCaseStudyClick = (caseStudyTitle, category) => {
+  trackEvent('case_study_view', {
+    title: caseStudyTitle,
+    category: category
+  })
+}
+
+const closeMobileMenu = (destination = '') => {
   mobileMenuOpen.value = false
+  if (destination) {
+    trackNavigation(destination)
+  }
 }
 
 const submitForm = () => {
@@ -417,6 +436,13 @@ const submitForm = () => {
     alert('Mohon lengkapi semua field yang wajib diisi.')
     return
   }
+  
+  // Track form submission
+  trackFormSubmission('contact_form', {
+    service: form.value.service,
+    has_company: !!form.value.company,
+    has_phone: !!form.value.phone
+  })
   
   // Create email content
   const subject = `Inquiry dari ${form.value.name} - ${form.value.service || 'Layanan Umum'}`
@@ -645,6 +671,7 @@ onUnmounted(() => {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .service-card::before {
@@ -728,6 +755,7 @@ onUnmounted(() => {
   overflow: hidden;
   border: 1px solid var(--dark-tertiary);
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .case-study-card:hover {
