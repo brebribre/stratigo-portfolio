@@ -244,7 +244,6 @@
         </div>
       </div>
     </footer>
-    <Analytics />
   </div>
 </template>
 
