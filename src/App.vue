@@ -244,12 +244,14 @@
         </div>
       </div>
     </footer>
+    <Analytics />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import caseStudy1Image from './assets/stratigo-ai-demo/demo-1.png'
+import { Analytics } from "@vercel/analytics/vue"
 
 // Reactive data
 const isScrolled = ref(false)
