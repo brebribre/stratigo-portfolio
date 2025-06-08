@@ -30,8 +30,7 @@
             Terdepan untuk Bisnis Anda
           </h1>
           <p class="hero-description">
-            Stratigo menghadirkan inovasi teknologi AI terbaru dengan layanan website perusahaan yang dipersonalisasi, 
-            software AI canggih, dan otomasi AI yang disesuaikan dengan kebutuhan bisnis Anda.
+            Stratigo menghadirkan layanan website dan website perusahaan yang dipersonalisasi dengan website profesional, integrasi AI, dan otomasi.
           </p>
           <div class="hero-buttons">
             <a href="#layanan" class="btn btn-primary">Jelajahi Layanan</a>
