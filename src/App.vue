@@ -250,7 +250,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import caseStudy1Image from './assets/stratigo-ai-demo/case-study-1.png'
+import caseStudy1Image from './assets/stratigo-ai-demo/demo-1.png'
 
 // Reactive data
 const isScrolled = ref(false)
@@ -355,6 +355,17 @@ const caseStudies = ref([
     results: [
       { value: '90%', label: 'Pengurangan Waktu Manual' },
       { value: '99%', label: 'Akurasi Data' }
+    ]
+  },
+  {
+    title: 'AI Product Photo Generator untuk E-commerce',
+    category: 'Software AI',
+    description: 'Mengembangkan software AI yang dapat menghasilkan foto produk berkualitas tinggi secara otomatis untuk kebutuhan e-commerce dan marketing.',
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop',
+    technologies: ['Python', 'AI/ML', 'React', 'API'],
+    results: [
+      { value: '75%', label: 'Pengurangan Biaya Fotografi' },
+      { value: '10x', label: 'Kecepatan Produksi' }
     ]
   }
 ])
