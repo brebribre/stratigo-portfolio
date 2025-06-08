@@ -1087,6 +1087,10 @@ onUnmounted(() => {
     transform: translateX(0);
   }
   
+  .hero {
+    padding-top: 80px;
+  }
+  
   .hero-content {
     grid-template-columns: 1fr;
     text-align: center;
