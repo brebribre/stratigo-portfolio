@@ -155,7 +155,7 @@
         <div class="contact-content">
           <div class="contact-info fade-in" :class="{ 'visible': contactVisible }">
             <h3>Mari Berkolaborasi</h3>
-            <p>Siap untuk mengembangkan bisnis Anda dengan teknologi AI terdepan? Hubungi tim Stratigo sekarang!</p>
+            <p>Siap untuk mengembangkan bisnis Anda dengan website profesional dan teknologi AI terdepan? Hubungi tim Stratigo sekarang!</p>
             <div class="collaboration-points">
               <div class="collaboration-point">
                 <svg class="checkmark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
