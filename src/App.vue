@@ -26,7 +26,7 @@
       <div class="hero-content container">
         <div class="hero-text fade-in" :class="{ 'visible': heroVisible }">
           <h1 class="hero-title">
-            Solusi <span class="highlight">Software AI</span><br>
+            Solusi <span class="highlight">Website</span> dan <span class="highlight">Software AI</span><br>
             Terdepan untuk Bisnis Anda
           </h1>
           <p class="hero-description">
