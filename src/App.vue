@@ -75,6 +75,24 @@
       </div>
     </section>
 
+    <!-- Trusted By Section -->
+    <section class="section trusted-by">
+      <div class="container">
+        <h2 class="section-title fade-in" :class="{ 'visible': trustedByVisible }">Dipercaya Oleh</h2>
+        <p class="section-subtitle fade-in" :class="{ 'visible': trustedByVisible }">
+          Klien-klien yang telah mempercayai layanan kami
+        </p>
+        <div class="carousel-container">
+          <div class="carousel-track">
+            <div class="client-logo" v-for="(client, index) in [...clientLogos, ...clientLogos]" :key="`${client.name}-${index}`"
+                 @click="handleClientLogoClick(client.name)">
+              <img :src="client.logo" :alt="client.name" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Case Studies Section -->
     <section id="portofolio" class="section case-studies">
       <div class="container">
@@ -262,6 +280,7 @@ const isScrolled = ref(false)
 const mobileMenuOpen = ref(false)
 const heroVisible = ref(false)
 const servicesVisible = ref(false)
+const trustedByVisible = ref(false)
 const caseStudiesVisible = ref(false)
 const aboutVisible = ref(false)
 const contactVisible = ref(false)
@@ -324,6 +343,33 @@ const services = ref([
   }
 ])
 
+const clientLogos = ref([
+  {
+    name: 'IZY',
+    logo: new URL('./assets/logos/izy-logo.png', import.meta.url).href
+  },
+  {
+    name: 'ENOS',
+    logo: new URL('./assets/logos/enos-logo.png', import.meta.url).href
+  },
+  {
+    name: 'Temu',
+    logo: new URL('./assets/logos/temu-logo-1.png', import.meta.url).href
+  },
+  {
+    name: 'IZY',
+    logo: new URL('./assets/logos/izy-logo.png', import.meta.url).href
+  },
+  {
+    name: 'ENOS',
+    logo: new URL('./assets/logos/enos-logo.png', import.meta.url).href
+  },
+  {
+    name: 'Temu',
+    logo: new URL('./assets/logos/temu-logo-1.png', import.meta.url).href
+  }
+])
+
 const techStack = ref([
   'Vue.js', 'React', 'Python', 'Node.js', 'TypeScript', 'JavaScript', 'SQL', 'NoSQL'
 ])
@@ -382,6 +428,7 @@ const handleScroll = () => {
   // Intersection observer for animations
   const heroSection = document.querySelector('.hero')
   const servicesSection = document.querySelector('.services')
+  const trustedBySection = document.querySelector('.trusted-by')
   const caseStudiesSection = document.querySelector('.case-studies')
   const aboutSection = document.querySelector('.about')
   const contactSection = document.querySelector('.contact')
@@ -391,6 +438,9 @@ const handleScroll = () => {
   }
   if (servicesSection && isInViewport(servicesSection)) {
     servicesVisible.value = true
+  }
+  if (trustedBySection && isInViewport(trustedBySection)) {
+    trustedByVisible.value = true
   }
   if (caseStudiesSection && isInViewport(caseStudiesSection)) {
     caseStudiesVisible.value = true
@@ -420,6 +470,12 @@ const handleCaseStudyClick = (caseStudyTitle, category) => {
   trackEvent('case_study_view', {
     title: caseStudyTitle,
     category: category
+  })
+}
+
+const handleClientLogoClick = (clientName) => {
+  trackEvent('client_logo_click', {
+    client_name: clientName
   })
 }
 
@@ -726,6 +782,103 @@ onUnmounted(() => {
   left: 0;
   color: var(--primary-orange);
   font-weight: bold;
+}
+
+/* Trusted By Styles */
+.trusted-by {
+  background: var(--dark-secondary);
+  padding: 4rem 0;
+  overflow: hidden;
+}
+
+.trusted-by .section-title {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.trusted-by .section-subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.carousel-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 10px 0;
+  mask: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+}
+
+.carousel-track {
+  display: flex;
+  gap: 3rem;
+  animation: scroll-infinite 30s linear infinite;
+  width: fit-content;
+}
+
+.client-logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background: transparent;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  min-width: 180px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.client-logo:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(255, 107, 53, 0.2);
+  border-color: var(--primary-orange);
+}
+
+.client-logo img {
+  max-width: 100%;
+  max-height: 60px;
+  object-fit: contain;
+  filter: brightness(0) invert(1) opacity(0.4);
+  transition: all 0.3s ease;
+}
+
+.client-logo:hover img {
+  filter: brightness(0) invert(1) opacity(0.8);
+}
+
+@keyframes scroll-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pause animation on hover */
+.carousel-container:hover .carousel-track {
+  animation-play-state: paused;
 }
 
 /* Case Studies Styles */
@@ -1168,6 +1321,20 @@ onUnmounted(() => {
   
   .footer-links {
     grid-template-columns: 1fr;
+  }
+  
+  .carousel-track {
+    gap: 2rem;
+  }
+  
+  .client-logo {
+    min-width: 150px;
+    height: 80px;
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .client-logo img {
+    max-height: 50px;
   }
 }
 </style> 
